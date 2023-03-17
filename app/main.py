@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import post, user, auth, vote
-from . import models
-from .database import engine
-from .config import settings
+from app.routers import post, user, auth, vote
+from app.models import Base as models_Base
+from app.database import engine
+from app.config import settings
 
-# Models are now autogenerate by alembic.
-# models.Base.metadata.create_all(bind=engine)
+# Initialize tables.
+models_Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
