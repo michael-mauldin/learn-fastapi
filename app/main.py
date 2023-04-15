@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 
 from app.routers import post, user, auth, vote
 from app.models import Base as models_Base
@@ -26,7 +28,10 @@ app.include_router(user.router)
 app.include_router(auth.router)
 app.include_router(vote.router)
 
+templates = Jinja2Templates(directory="app/templates")
 
-@app.get("/")
-def root():
-    return {"message": "hello world"}
+
+@app.get("/")  # , response_class=HTMLResponse)
+def root(request: Request):
+    return {"message": "hello world!"}
+    #  return templates.TemplateResponse("index.html", {"request": request})

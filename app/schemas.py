@@ -45,9 +45,13 @@ class Post(PostBase):
         orm_mode = True
 
 
-class PostOut(PostBase):
+class PostOut(BaseModel):
     Post: Post
     votes: int
+
+    # tell Pydantic we are using an ORM model
+    class Config:
+        orm_mode = True
 
 
 # Authentication

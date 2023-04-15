@@ -1,6 +1,7 @@
 from typing import List
 
-from fastapi import Response, status, HTTPException, Depends, APIRouter
+from fastapi import Request, Response, status, HTTPException, Depends, APIRouter
+from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
@@ -13,6 +14,7 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 
 @router.get("/", response_model=List[schemas.PostOut])
 def get_posts(
+    request: Request,
     db: Session = Depends(get_db),
     current_user: int = Depends(oauth2.get_current_user),
     limit: int = 5,
@@ -28,6 +30,7 @@ def get_posts(
         .offset(skip)
         .all()
     )
+
     return posts
 
 
